@@ -1,9 +1,9 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import PageHeader from '../components/PageHeader.vue'
 import Icon from '../components/Icon.vue'
 import { siteConfig } from '../data/site'
-import { submitConsultation } from '../api'
+import { submitConsultation, getStats } from '../api'
 
 const form = ref({
   company: '',
@@ -16,6 +16,29 @@ const form = ref({
 const submitted = ref(false)
 const submitting = ref(false)
 const errorMsg = ref('')
+const partnerCount = ref('50+')
+
+const reasons = computed(() => [
+  `${partnerCount.value} 餐饮品牌服务经验`,
+  '数据驱动的运营方法论',
+  '从战略到执行的全链路服务',
+  '可量化的增长结果承诺',
+])
+
+onMounted(async () => {
+  try {
+    const response = await getStats()
+    const item = response.data.find(
+      (stat) => stat.label === '合作品牌'
+    )
+
+    if (item) {
+      partnerCount.value = item.value
+    }
+  } catch (error) {
+    console.error('合作品牌数据加载失败', error)
+  }
+})
 
 async function handleSubmit() {
   if (!form.value.contactName || !form.value.phone) return
@@ -61,7 +84,7 @@ const contactCards = [
           <div class="rounded-2xl bg-gradient-to-br from-primary-700 to-primary-900 p-8 reveal">
             <h3 class="text-white font-semibold mb-3">为什么选择我们</h3>
             <ul class="space-y-3">
-              <li v-for="item in ['50+ 餐饮品牌服务经验', '数据驱动的运营方法论', '从战略到执行的全链路服务', '可量化的增长结果承诺']" :key="item" class="flex items-center gap-3 text-sm text-primary-100/90">
+              <li v-for="item in reasons" :key="item" class="flex items-center gap-3 text-sm text-primary-100/90">
                 <Icon name="check" class="w-4 h-4 text-primary-300 shrink-0" />
                 {{ item }}
               </li>
