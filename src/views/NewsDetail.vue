@@ -30,6 +30,12 @@ onMounted(async () => {
           <span class="text-sm text-slate-400">{{ article.date }}</span>
         </div>
         <h1 class="text-3xl md:text-4xl font-bold text-slate-900 leading-snug">{{ article.title }}</h1>
+	<p
+  v-if="article.summary"
+  class="mt-5 text-lg text-slate-500 leading-relaxed"
+>
+  {{ article.summary }}
+</p>
       </div>
     </section>
 
