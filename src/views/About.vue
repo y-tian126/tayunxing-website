@@ -1,8 +1,24 @@
 <script setup>
+import { ref, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import PageHeader from '../components/PageHeader.vue'
 import Icon from '../components/Icon.vue'
 import { siteConfig, stats, milestones, advantages } from '../data/site'
+import { getStats } from '../api'
+
+const aboutStats = ref(stats)
+
+onMounted(async () => {
+  try {
+    const response = await getStats()
+
+    if (Array.isArray(response.data) && response.data.length) {
+      aboutStats.value = response.data
+    }
+  } catch (error) {
+    console.error('关于我们数据加载失败', error)
+  }
+})
 </script>
 
 <template>
@@ -28,7 +44,7 @@ import { siteConfig, stats, milestones, advantages } from '../data/site'
             <p class="text-sm text-slate-600 leading-relaxed">{{ siteConfig.identityDetail }}。</p>
           </div>
           <div class="grid grid-cols-2 gap-6">
-            <div v-for="s in stats" :key="s.label">
+            <div v-for="s in aboutStats" :key="s.label">
               <div class="text-2xl font-bold text-primary-600">{{ s.value }}</div>
               <div class="text-sm text-slate-500 mt-1">{{ s.label }}</div>
             </div>
