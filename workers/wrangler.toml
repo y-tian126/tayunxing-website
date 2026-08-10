@@ -7,7 +7,7 @@ compatibility_date = "2024-06-01"
 [[d1_databases]]
 binding = "DB"
 database_name = "tayunxing-db"
-database_id = "YOUR_DATABASE_ID"
+database_id = "dedfad8a-687e-4e46-924f-3e54adf5a757"
 
 # CORS — 替换为你的 Cloudflare Pages 域名
 [vars]
