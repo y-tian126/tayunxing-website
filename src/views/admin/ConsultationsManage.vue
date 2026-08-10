@@ -4,6 +4,31 @@ import { adminConsultations, updateConsultationStatus, deleteConsultation } from
 
 const list = ref([])
 const loading = ref(false)
+function formatDateTime(value) {
+  if (!value) return ''
+
+  const utcValue = value.includes('T')
+    ? value
+    : value.replace(' ', 'T')
+
+  const date = new Date(
+    /Z$|[+-]\d{2}:\d{2}$/.test(utcValue)
+      ? utcValue
+      : `${utcValue}Z`
+  )
+
+  return date
+    .toLocaleString('zh-CN', {
+      timeZone: 'Asia/Shanghai',
+      hour12: false,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    })
+    .replace(/\//g, '-')
+}
 
 const statusMap = {
   pending: { label: '待处理', class: 'bg-amber-50 text-amber-700' },
@@ -62,7 +87,7 @@ onMounted(load)
               <div class="text-sm text-slate-500 flex flex-wrap gap-x-5 gap-y-1">
                 <span>📞 {{ item.phone }}</span>
                 <span v-if="item.email">✉️ {{ item.email }}</span>
-                <span class="text-slate-400">{{ (item.createdAt || '').replace('T', ' ').slice(0, 16) }}</span>
+                <span class="text-slate-400">{{ formatDateTime(item.createdAt) }}</span>
               </div>
             </div>
             <div class="flex items-center gap-2 shrink-0">
