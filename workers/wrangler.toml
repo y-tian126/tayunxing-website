@@ -11,5 +11,5 @@ database_id = "dedfad8a-687e-4e46-924f-3e54adf5a757"
 
 # CORS — 替换为你的 Cloudflare Pages 域名
 [vars]
-CORS_ORIGIN = "https://tayunxing-website.pages.dev"
+CORS_ORIGIN = "http://localhost:5173"
 JWT_SECRET = "tayunxing-jwt-secret-change-in-production"

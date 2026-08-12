@@ -236,9 +236,7 @@ app.use('/api/v1/admin/*', authMiddleware)
 
 // ---- 文章管理 ----
 app.get('/api/v1/admin/articles', async (c) => {
-  const rows = await c.env.DB.prepare(
-  'SELECT id,title,summary,content,cover_image AS coverImage,category,status,publish_time AS date,view_count AS viewCount,created_at AS createdAt FROM articles ORDER BY id DESC'
-).all()
+  const rows = await c.env.DB.prepare('SELECT id,title,category,status,publish_time AS date,view_count AS viewCount,created_at AS createdAt FROM articles ORDER BY id DESC').all()
   const list = rows.results.map((r) => ({ ...r, categoryLabel: CATEGORY_MAP[r.category] || r.category }))
   return c.json(ok(list))
 })
