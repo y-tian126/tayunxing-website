@@ -107,8 +107,9 @@ app.use('/api/*', async (c, next) => {
 // 数据统计
 app.get('/api/v1/stats', async (c) => {
   const rows = await c.env.DB.prepare(
-  'SELECT id,title,summary,content,cover_image AS coverImage,category,status,publish_time AS date,view_count AS viewCount,created_at AS createdAt FROM articles ORDER BY id DESC'
-).all()
+    'SELECT id,value,label,sort_order AS sortOrder FROM stats ORDER BY sort_order'
+  ).all()
+
   return c.json(ok(rows.results))
 })
 
