@@ -1,4 +1,4 @@
-import app from '../workers/src/index.js'
+import app from '../../workers/src/index.js'
 
 export async function onRequest(context) {
   return app.fetch(
